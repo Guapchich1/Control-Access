@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/Dimensions.dart';
+import 'package:flutter_project/Pages/Widgets/Vhod6.dart';
 
-class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
+class VhodVhodPage extends StatelessWidget {
+  const VhodVhodPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +17,9 @@ class SecondPage extends StatelessWidget {
           foregroundColor: Colors.orange,
           centerTitle: true,
         ),
-      body: Text('13'),
-    );
+        body: Center(
+            child: AutorizButton6(title: 'Открыть')
+          ),
+        );
   }
-
 }

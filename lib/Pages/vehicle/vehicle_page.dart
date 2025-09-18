@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/Dimensions.dart';
-import 'package:flutter_project/Pages/vehicle/Second_Page.dart';
-import 'package:flutter_project/Pages/vehicle/third_page.dart';
-import 'package:flutter_project/Widgets/Vhod.dart';
-import 'package:flutter_project/Widgets/Vhod2.dart';
+import 'package:flutter_project/Pages/vehicle/Vhod_Page.dart';
+import 'package:flutter_project/Pages/vehicle/PervVhod_page.dart';
+import 'package:flutter_project/Pages/Widgets/Vhod.dart';
+import 'package:flutter_project/Pages/Widgets/Vhod2.dart';
 
 class VehiclePage extends StatelessWidget {
   const VehiclePage({super.key});
@@ -25,9 +25,9 @@ class VehiclePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,       // чтобы колонка не растягивалась
             mainAxisAlignment: MainAxisAlignment.center, // центрируем по вертикали
             crossAxisAlignment: CrossAxisAlignment.center, // центрируем по горизонтали
-            children: [AutorizButton(title: 'Вход', nextPage: SecondPage()),
+            children: [AutorizButton(title: 'Вход', nextPage: VhodPage()),
               const SizedBox(height: 16), // отступ между кнопкой и текстом
-              AutorizButton2(title: 'Первичный вход', nextPage: ThirdPage())
+              AutorizButton2(title: 'Первичный вход', nextPage: PervVhodPage())
             ],
           ),
         )

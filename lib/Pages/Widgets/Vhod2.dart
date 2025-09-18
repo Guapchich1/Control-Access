@@ -17,8 +17,7 @@ class AutorizButton2 extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          color: Colors.orange,
-          decoration: TextDecoration.underline,
+          color: Colors.orange
         ),
       ),
     );
