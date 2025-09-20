@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/dimensions.dart';
 
-class AutorizButton6 extends StatelessWidget {
+class ButtonDoor extends StatelessWidget {
   final String title;
-  const AutorizButton6({super.key, required this.title});
+  const ButtonDoor({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class AutorizButton6 extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
+        minimumSize: const Size(width240, height100),
         backgroundColor: Colors.white,
         foregroundColor: Colors.orange,
       ),

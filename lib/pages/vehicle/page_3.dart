@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/Dimensions.dart';
-import 'package:flutter_project/Pages/Widgets/Vhod5.dart';
-import 'package:flutter_project/Pages/vehicle/Vhod_Vhod_page.dart';
-import 'package:flutter_project/Pages/Widgets/Vhod4.dart';
+import 'package:flutter_project/dimensions.dart';
+import 'package:flutter_project/pages/vehicle/vehicle_page.dart';
+import 'package:flutter_project/pages/widgets/button_registration3.dart';
 
-class VhodPage extends StatelessWidget {
-  VhodPage({super.key});
+class ThirdPage extends StatelessWidget {
+  ThirdPage({super.key});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -36,6 +35,9 @@ class VhodPage extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return 'Пожалуйста, введите имя';
                   }
+                  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                    return 'Разрешены только буквы';
+                  }
                   return null;
                 },
               ),
@@ -51,7 +53,13 @@ class VhodPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20.0),
-              AutorizButton5(title: 'Войти', nextPage: VhodVhodPage(), formKey: _formKey)
+              Center(
+                child: ButtonRegistr(
+                  title: 'Завершить регистрацию',
+                  nextPage: VehiclePage(),
+                  formKey: _formKey,
+                ),
+              ),
             ],
           ),
         ),

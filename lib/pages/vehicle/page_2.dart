@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/Dimensions.dart';
-import 'package:flutter_project/Pages/vehicle/PervVhod_Vhod_page.dart';
-import 'package:flutter_project/Pages/Widgets/Vhod3.dart';
+import 'package:flutter_project/dimensions.dart';
+import 'package:flutter_project/pages/vehicle/page_3.dart';
+import 'package:flutter_project/pages/widgets/button_proverka2.dart';
 
-class PervVhodPage extends StatelessWidget {
+class SecondPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  PervVhodPage({super.key});
+  SecondPage({super.key});
   final TextEditingController _nameController = TextEditingController();
 
   @override
@@ -41,7 +41,13 @@ class PervVhodPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20.0),
-              AutorizButton3(title: 'Проверить', nextPage: PervVhodVhodPage(), formKey: _formKey)
+              Center(
+                child: ButtonProverka(
+                  title: 'Проверить',
+                  nextPage: ThirdPage(),
+                  formKey: _formKey,
+                ),
+              ),
             ],
           ),
         ),

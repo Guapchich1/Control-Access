@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/dimensions.dart';
 
-class AutorizButton5 extends StatelessWidget {
+class ButtonRegistr extends StatelessWidget {
   final String title;
   final Widget nextPage;
   final GlobalKey<FormState> formKey;
 
-  const AutorizButton5({
+  const ButtonRegistr({
     super.key,
     required this.title,
     required this.nextPage,
@@ -19,7 +20,7 @@ class AutorizButton5 extends StatelessWidget {
         if (formKey.currentState!.validate()) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Вы успешно авторизовались'),
+              content: Text('Вы успешно зарегистрировались'),
               backgroundColor: Colors.green,
               duration: Duration(seconds: 1),
             ),
@@ -33,6 +34,7 @@ class AutorizButton5 extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
+        minimumSize: const Size(width120, height40),
         backgroundColor: Colors.white,
         foregroundColor: Colors.orange,
       ),

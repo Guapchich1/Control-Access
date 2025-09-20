@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/Dimensions.dart';
-import 'package:flutter_project/Pages/vehicle/vehicle_page.dart';
-import 'package:flutter_project/Pages/Widgets/Vhod4.dart';
+import 'package:flutter_project/dimensions.dart';
+import 'package:flutter_project/pages/widgets/button_autorization4.dart';
+import 'package:flutter_project/pages/vehicle/page_5.dart';
 
-class PervVhodVhodPage extends StatelessWidget {
-  PervVhodVhodPage({super.key});
+class FourthPage extends StatelessWidget {
+  FourthPage({super.key});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -35,22 +35,31 @@ class PervVhodVhodPage extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return 'Пожалуйста, введите имя';
                   }
+                  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                    return 'Разрешены только буквы';
+                  }
                   return null;
                 },
               ),
               const SizedBox(height: 20.0),
-                const Text('Пароль:', style: TextStyle(fontSize: 20.0)),
-                TextFormField(
-                  controller: _passwordController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Пожалуйста, введите пароль';
-                    }
-                    return null;
-                  },
+              const Text('Пароль:', style: TextStyle(fontSize: 20.0)),
+              TextFormField(
+                controller: _passwordController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Пожалуйста, введите пароль';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20.0),
-              AutorizButton4(title: 'Завершить регистрацию', nextPage: VehiclePage(), formKey: _formKey)
+              Center(
+                child: ButtonAutoriz(
+                  title: 'Войти',
+                  nextPage: FifthPage(),
+                  formKey: _formKey,
+                ),
+              ),
             ],
           ),
         ),

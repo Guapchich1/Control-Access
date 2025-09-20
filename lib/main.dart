@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';// подключаем библиотеку material
-import 'package:flutter_project/Pages/vehicle/vehicle_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_project/pages/vehicle/vehicle_page.dart';
 
 void main() {
-  runApp(const myApp());
+  runApp(const ControlAccessApp());
 }
 
-class myApp extends StatelessWidget {
-  const myApp({super.key});
+class ControlAccessApp extends StatelessWidget {
+  const ControlAccessApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,5 +17,3 @@ class myApp extends StatelessWidget {
     );
   }
 }
-
-
