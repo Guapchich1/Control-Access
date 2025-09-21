@@ -11,7 +11,9 @@ class VehiclePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           'Control Access',
           style: TextStyle(fontSize: fontsize18, fontWeight: FontWeight.w500),
