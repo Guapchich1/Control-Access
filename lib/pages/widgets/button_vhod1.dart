@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 
@@ -14,13 +13,12 @@ class ButtonVhod extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          CupertinoPageRoute(builder: (context) => nextPage),
+          MaterialPageRoute(builder: (context) => nextPage),
         );
       },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(width120, height40),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
+        foregroundColor: Colors.blue.shade600,
       ),
       child: Text(title),
     );

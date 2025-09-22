@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/button_door.dart';
+import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
 
 class FifthPage extends StatelessWidget {
   const FifthPage({super.key});
@@ -8,17 +8,8 @@ class FifthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Control Access',
-          style: TextStyle(fontSize: fontsize18, fontWeight: FontWeight.w500),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
-        centerTitle: true,
-      ),
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(),
       body: Center(child: ButtonDoor(title: 'Открыть')),
     );
   }

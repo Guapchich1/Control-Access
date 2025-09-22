@@ -11,9 +11,13 @@ class ControlAccessApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: Colors.transparent,
+        ),
       title: 'Control Access',
       debugShowCheckedModeBanner: false,
-      home: const VehiclePage(),
+      home: VehiclePage(),
     );
   }
 }

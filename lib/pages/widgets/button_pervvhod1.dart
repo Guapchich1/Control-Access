@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 class ButtonPervVhod extends StatelessWidget {
   final String title;
@@ -16,10 +15,10 @@ class ButtonPervVhod extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          CupertinoPageRoute(builder: (context) => nextPage),
+          MaterialPageRoute(builder: (context) => nextPage),
         );
       },
-      child: Text(title, style: TextStyle(color: Colors.orange)),
+      child: Text(title, style: TextStyle(color: Colors.blue.shade600)),
     );
   }
 }

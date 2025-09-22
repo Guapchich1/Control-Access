@@ -27,7 +27,7 @@ class ButtonAutoriz extends StatelessWidget {
           );
 
           // переход на новую страницу
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => nextPage),
           );
@@ -35,8 +35,7 @@ class ButtonAutoriz extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(width120, height40),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
+        foregroundColor: Colors.blue.shade600,
       ),
       child: Text(title),
     );

@@ -19,8 +19,7 @@ class ButtonDoor extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(width240, height100),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
+        foregroundColor: Colors.blue.shade600,
       ),
       child: Text(title),
     );

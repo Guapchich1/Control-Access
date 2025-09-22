@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/vehicle/page_3.dart';
 import 'package:flutter_project/pages/widgets/button_proverka2.dart';
+import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
+import 'package:flutter_project/services/validation_service.dart';
 
 class SecondPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -11,36 +12,18 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Control Access',
-          style: TextStyle(fontSize: fontsize18, fontWeight: FontWeight.w500),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
-        centerTitle: true,
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start, //выравнивание слева
             children: [
               const Text('Первичный код:', style: TextStyle(fontSize: 20.0)),
               TextFormField(
                 controller: _nameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите код';
-                  }
-                  if (int.tryParse(value) != parol) {
-                    return 'Неверный код';
-                  }
-                  return null;
-                },
+                validator: ValidationService.validateCode,
               ),
               const SizedBox(height: 20.0),
               Center(

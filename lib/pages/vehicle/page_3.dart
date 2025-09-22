@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/vehicle/vehicle_page.dart';
 import 'package:flutter_project/pages/widgets/button_registration3.dart';
+import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
+import 'package:flutter_project/services/validation_service.dart';
 
 class ThirdPage extends StatelessWidget {
   ThirdPage({super.key});
@@ -12,17 +13,7 @@ class ThirdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Control Access',
-          style: TextStyle(fontSize: fontsize18, fontWeight: FontWeight.w500),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
-        centerTitle: true,
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Form(
@@ -33,26 +24,13 @@ class ThirdPage extends StatelessWidget {
               const Text('Имя:', style: TextStyle(fontSize: 20.0)),
               TextFormField(
                 controller: _nameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите имя';
-                  }
-                  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                    return 'Разрешены только буквы';
-                  }
-                  return null;
-                },
+                validator: ValidationService.validateName,
               ),
               const SizedBox(height: 20.0),
               const Text('Пароль:', style: TextStyle(fontSize: 20.0)),
               TextFormField(
                 controller: _passwordController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите пароль';
-                  }
-                  return null;
-                },
+                validator: ValidationService.validatePassword,
               ),
               const SizedBox(height: 20.0),
               Center(

@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/vehicle/page_2.dart';
 import 'package:flutter_project/pages/widgets/button_vhod1.dart';
 import 'package:flutter_project/pages/widgets/button_pervvhod1.dart';
 import 'package:flutter_project/pages/vehicle/page_4.dart';
+import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
 
 class VehiclePage extends StatelessWidget {
-  const VehiclePage({super.key});
+  VehiclePage({super.key});
+  final fourthPage = FourthPage();
+  final secondPage = SecondPage();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Control Access',
-          style: TextStyle(fontSize: fontsize18, fontWeight: FontWeight.w500),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.orange,
-        centerTitle: true,
-      ),
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min, // чтобы колонка не растягивалась
@@ -31,7 +24,7 @@ class VehiclePage extends StatelessWidget {
               CrossAxisAlignment.center, // центрируем по горизонтали
           children: [
             ButtonVhod(title: 'Вход', nextPage: FourthPage()),
-            const SizedBox(height: 16), // отступ между кнопкой и текстом
+            const SizedBox(height: 16),
             ButtonPervVhod(title: 'Первичный вход', nextPage: SecondPage()),
           ],
         ),
