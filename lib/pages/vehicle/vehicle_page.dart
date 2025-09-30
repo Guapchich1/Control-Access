@@ -24,7 +24,7 @@ class VehiclePage extends StatelessWidget {
               CrossAxisAlignment.center, // центрируем по горизонтали
           children: [
             ButtonVhod(title: 'Вход', nextPage: FourthPage()),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             ButtonPervVhod(title: 'Первичный вход', nextPage: SecondPage()),
           ],
         ),

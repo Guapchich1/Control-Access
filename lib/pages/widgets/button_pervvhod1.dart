@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/dimensions.dart';
 
 class ButtonPervVhod extends StatelessWidget {
   final String title;
@@ -11,14 +12,52 @@ class ButtonPervVhod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => nextPage),
-        );
-      },
-      child: Text(title, style: TextStyle(color: Colors.blue.shade600)),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF764ba2), // Фиолетовый
+            Color(0xFF6B73FF), // Синий акцент
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6B73FF).withOpacity(0.3),
+            blurRadius: 9,
+            offset: const Offset(0, 4),
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => nextPage),
+            );
+          },
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            width: width240,
+            height: height100,
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white, // Мятно-зеленый цвет текста
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
