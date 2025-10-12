@@ -26,25 +26,13 @@ class FourthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Card(
-            color: const Color(0xFF2D3748),
-            elevation: 10,
-            shadowColor: Colors.black.withOpacity(0.3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
                     // Имя
                     const Text(
                       'Имя:',
@@ -166,15 +154,16 @@ class FourthPage extends StatelessWidget {
                         title: 'Войти',
                         nextPage: FifthPage(),
                         formKey: _formKey,
+                        passwordController: _passwordController,
+                        phoneController: _phoneController,
+                        nameController: _nameController,
+                        surnameController: _surnameController,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 

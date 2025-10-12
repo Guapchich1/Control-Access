@@ -5,32 +5,21 @@ import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
 import 'package:flutter_project/services/validation_service.dart';
 
 class ThirdPage extends StatelessWidget {
-  ThirdPage({super.key});
+  ThirdPage({super.key, required this.code});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-
+  final String code;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Card(
-            color: const Color(0xFF2D3748),
-            elevation: 10,
-            shadowColor: Colors.black.withOpacity(0.3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
                     const Text(
                       'Пароль:',
                       style: TextStyle(
@@ -105,15 +94,14 @@ class ThirdPage extends StatelessWidget {
                         title: 'Завершить регистрацию',
                         nextPage: VehiclePage(),
                         formKey: _formKey,
+                        code: code,
+                        passwordController: _passwordController,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

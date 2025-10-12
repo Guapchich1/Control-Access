@@ -1,18 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
+import 'package:flutter_project/pages/vehicle/page_3.dart';
+import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
 
-class ButtonProverka extends StatelessWidget {
+class ButtonProverka extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
   final Widget nextPage;
   final GlobalKey<FormState> formKey;
+  final TextEditingController codeController;
 
   const ButtonProverka({
     super.key,
     required this.title,
     required this.nextPage,
     required this.formKey,
+    required this.codeController,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,20 +41,30 @@ class ButtonProverka extends StatelessWidget {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Вы успешно ввели код'),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 1),
-              ),
-            );
+            final commandPayload = jsonEncode({
+              "action": 'proverka',
+              "code": codeController.text.trim(),
+            });
+            executeWithConnection(context, () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Вы успешно ввели код'),
+                  backgroundColor: Colors.green,
+                  duration: Duration(seconds: 1),
+                ),
+              );
 
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => nextPage),
-            );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ThirdPage(
+                    code: codeController.text.trim(), // передаём код
+                  ),
+                ),
+              );
+            }, command: commandPayload);
           }
         },
         style: ElevatedButton.styleFrom(

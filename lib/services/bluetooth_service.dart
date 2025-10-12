@@ -16,7 +16,7 @@ class BluetoothService {
   late StreamController<String> _inputController;
 
   // MAC адрес сервера
-  final String targetDeviceAddress = "XX:XX:XX:XX:XX:XX"; // Заменить на MAC
+  final String targetDeviceAddress = "80:AF:CA:CC:91:DF"; // Заменить на MAC
 
   Future<bool> checkServerConnection() async {
     // Если соединение есть, пробуем пинг
@@ -56,15 +56,20 @@ class BluetoothService {
         return false;
       }
 
-      _connection = await BluetoothConnection.toAddress(targetDeviceAddress); // Устанавливаем соединение
+      _connection = await BluetoothConnection.toAddress(
+        targetDeviceAddress,
+      ); // Устанавливаем соединение
       _inputController = StreamController<String>.broadcast();
-      _connection!.input!.listen((Uint8List data) {
-        final text = utf8.decode(data);
-        _inputController.add(text);
-      }, onDone: () async {
-        // Если соединение закрылось со стороны сервера
-        await _resetConnection();
-      });
+      _connection!.input!.listen(
+        (Uint8List data) {
+          final text = utf8.decode(data);
+          _inputController.add(text);
+        },
+        onDone: () async {
+          // Если соединение закрылось со стороны сервера
+          await _resetConnection();
+        },
+      );
 
       // Проверяем ping
       bool pingResult = await _pingServer();
@@ -80,11 +85,12 @@ class BluetoothService {
   // Найти устройство среди спаренных
   Future<void> _findTargetDevice() async {
     try {
-      List<BluetoothDevice> bondedDevices =
-      await FlutterBluetoothSerial.instance.getBondedDevices();
+      List<BluetoothDevice> bondedDevices = await FlutterBluetoothSerial
+          .instance
+          .getBondedDevices();
 
       _targetDevice = bondedDevices.firstWhere(
-            (device) => device.address == targetDeviceAddress,
+        (device) => device.address == targetDeviceAddress,
         orElse: () => BluetoothDevice(name: null, address: targetDeviceAddress),
       );
     } catch (e) {
@@ -111,18 +117,26 @@ class BluetoothService {
   }
 
   // Отправить любую команду
-  Future<bool> sendCommand(String command) async {
+  Future<Map<String, dynamic>> sendCommand(String command) async {
     try {
-      bool connected = await checkServerConnection();
-      if (!connected) return false;
+      if (_connection == null || !_connection!.isConnected) {
+        if (!await _connectAndPing()) {
+          return {"status": "error", "message": "Нет соединения"};
+        }
+      }
 
       _connection!.output.add(Uint8List.fromList(utf8.encode("$command\n")));
       await _connection!.output.allSent;
 
-      return true;
+      // Ждём ответа JSON
+      final responseStr = await _inputController.stream
+          .firstWhere((s) => s.trim().isNotEmpty)
+          .timeout(Duration(seconds: 30));
+
+      return json.decode(responseStr);
     } catch (e) {
       print('Send command error: $e');
-      return false;
+      return {"status": "error", "message": e.toString()};
     }
   }
 
@@ -145,5 +159,3 @@ class BluetoothService {
     }
   }
 }
-
-

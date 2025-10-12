@@ -6,7 +6,6 @@ import 'package:flutter_project/services/permissions.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await requestBluetoothPermissions(); // для разрешений
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); // спрятать нижние кнопки
   runApp(const ControlAccessApp());
 }
 

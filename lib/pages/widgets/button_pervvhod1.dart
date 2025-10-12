@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
+import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
 
-class ButtonPervVhod extends StatelessWidget {
+class ButtonPervVhod extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
   final Widget nextPage;
   const ButtonPervVhod({
@@ -35,12 +36,13 @@ class ButtonPervVhod extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            Navigator.push(
+          onTap: () => executeWithConnection(
+              context,
+              () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => nextPage),
-            );
-          },
+            ),
+          ),
           borderRadius: BorderRadius.circular(20),
           child: Container(
             width: width240,

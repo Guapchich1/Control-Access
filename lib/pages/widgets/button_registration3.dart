@@ -1,17 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
+import 'package:flutter_project/services/ID.dart';
 
 class ButtonRegistr extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
   final Widget nextPage;
   final GlobalKey<FormState> formKey;
+  final String code; // добавлено
+  final TextEditingController passwordController;
 
   const ButtonRegistr({
     super.key,
     required this.title,
     required this.nextPage,
     required this.formKey,
+    required this.code,
+    required this.passwordController,
   });
 
   @override
@@ -37,19 +44,29 @@ class ButtonRegistr extends StatelessWidget with BluetoothConnectionMixin {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Вы успешно зарегистрировались'),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 1),
-              ),
-            );
+            final installId = await getOrCreateInstallId();
+            final commandPayload = jsonEncode({
+              "action": 'registr',
+              "code": code, // код с предыдущей страницы
+              "install_id": installId,
+              "password": passwordController.text.trim(),
+            });
+            executeWithConnection(context, () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Вы успешно зарегистрировались'),
+                  backgroundColor: Colors.green,
+                  duration: Duration(seconds: 1),
+                ),
+              );
 
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => nextPage),
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => nextPage),
+              );
+            }, command: commandPayload,
             );
           }
         },

@@ -5,57 +5,61 @@ mixin BluetoothConnectionMixin {
   
   /// Проверяет соединение и выполняет действие при успехе
   Future<void> executeWithConnection(
-    BuildContext context,
-    VoidCallback onSuccess, {
-    String? command,
-    String? errorMessage,
-  }) async {
+      BuildContext context,
+      VoidCallback onSuccess, {
+        String? command,
+        String? errorMessage,
+      }) async {
     bool isConnected = await BluetoothService().checkServerConnection();
-    
-    if (isConnected) {
-      if (command != null) {
-        bool commandSent = await BluetoothService().sendCommand(command);
-        if (commandSent) {
-          onSuccess();
-        } else {
-          _showErrorSnackBar(
-            context, 
-            errorMessage ?? 'Ошибка выполнения команды'
-          );
-        }
-      } else {
+
+    if (!isConnected) {
+      _showErrorSnackBar(context, 'Нет соединения с сервером. Проверьте Bluetooth');
+      return;
+    }
+
+    if (command != null) {
+      final response = await BluetoothService().sendCommand(command);
+      // response — это Map<String, dynamic> с сервера
+      if (response != null && response['status'] == 'ok') {
         onSuccess();
+      } else {
+        _showErrorSnackBar(
+          context,
+          response != null ? response['message'] : (errorMessage ?? 'Ошибка выполнения команды'),
+        );
       }
     } else {
-      _showErrorSnackBar(
-        context,
-        'Нет соединения с сервером. Проверьте Bluetooth'
-      );
+      onSuccess();
     }
   }
 
+
   /// Проверяет соединение и показывает соответствующее сообщение
   Future<void> checkConnectionAndNotify(
-    BuildContext context,
-    String command,
-    String successMessage,
-  ) async {
+      BuildContext context,
+      String command,
+      String successMessage,
+      ) async {
     bool isConnected = await BluetoothService().checkServerConnection();
-    
-    if (isConnected) {
-      bool commandSent = await BluetoothService().sendCommand(command);
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(commandSent ? successMessage : 'Ошибка выполнения команды'),
-          backgroundColor: commandSent ? Colors.green : Colors.red,
-          duration: const Duration(seconds: 1),
-        ),
-      );
-    } else {
+
+    if (!isConnected) {
       _showErrorSnackBar(context, 'Нет соединения с сервером');
+      return;
     }
+
+    final response = await BluetoothService().sendCommand(command);
+
+    bool success = response['status'] == 'ok';
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(success ? successMessage : response['message'] ?? 'Ошибка выполнения команды'),
+        backgroundColor: success ? Colors.green : Colors.red,
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
+
 
   void _showErrorSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(

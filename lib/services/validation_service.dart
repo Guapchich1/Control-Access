@@ -3,9 +3,6 @@ class ValidationService {
     if (value == null || value.isEmpty) {
       return 'Пожалуйста, введите код';
     }
-    if (int.tryParse(value) != 432432) {
-      return 'Неверный код';
-    }
     return null;
   }
 

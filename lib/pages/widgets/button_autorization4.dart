@@ -1,17 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
+import 'package:flutter_project/services/ID.dart';
 
 class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
   final Widget nextPage;
   final GlobalKey<FormState> formKey;
+  final TextEditingController passwordController;
+  final TextEditingController phoneController;
+  final TextEditingController nameController;
+  final TextEditingController surnameController;
 
   const ButtonAutoriz({
     super.key,
     required this.title,
     required this.nextPage,
     required this.formKey,
+    required this.passwordController,
+    required this.phoneController,
+    required this.nameController,
+    required this.surnameController
   });
 
   @override
@@ -37,8 +48,17 @@ class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (formKey.currentState!.validate()) {
+            final installId = await getOrCreateInstallId();
+            final commandPayload = jsonEncode({
+              "action": 'autoriz',
+              "install_id": installId,
+              "password": passwordController.text.trim(),
+              "phone": phoneController.text.trim(),
+              "name": nameController.text.trim(),
+              "surname": surnameController.text.trim(),
+            });
             executeWithConnection(
               context,
               () {
@@ -54,7 +74,7 @@ class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
                   MaterialPageRoute(builder: (context) => nextPage),
                 );
               },
-              command: 'AUTH_SUCCESS',
+              command: commandPayload,
             );
           }
         },

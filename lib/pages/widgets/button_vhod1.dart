@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
+import 'package:flutter_project/services/ID.dart';
 
 class ButtonVhod extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
@@ -31,13 +34,23 @@ class ButtonVhod extends StatelessWidget with BluetoothConnectionMixin {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () => executeWithConnection(
-          context,
-          () => Navigator.push(
+        onPressed: () async {
+          final installId = await getOrCreateInstallId();
+          final commandPayload = jsonEncode({
+            "action": 'proverka_install_id',
+            "install_id": installId,
+          });
+          executeWithConnection(
             context,
-            MaterialPageRoute(builder: (context) => nextPage),
-          ),
-        ),
+                () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => nextPage),
+              );
+            },
+            command: commandPayload,
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
