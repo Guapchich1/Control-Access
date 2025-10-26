@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/pages/widgets/button_autorization4.dart';
-import 'package:flutter_project/pages/vehicle/page_5.dart';
 import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
 import 'package:flutter_project/services/validation_service.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -152,7 +151,7 @@ class FourthPage extends StatelessWidget {
                     Center(
                       child: ButtonAutoriz(
                         title: 'Войти',
-                        nextPage: FifthPage(),
+                        nextPage: const Scaffold(),
                         formKey: _formKey,
                         passwordController: _passwordController,
                         phoneController: _phoneController,

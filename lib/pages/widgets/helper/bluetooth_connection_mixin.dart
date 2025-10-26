@@ -33,6 +33,28 @@ mixin BluetoothConnectionMixin {
     }
   }
 
+  /// Отправляет команду и возвращает ответ сервера
+  Future<Map<String, dynamic>?> executeWithResponse(
+      BuildContext context, {
+        required String command,
+        String? errorMessage,
+      }) async {
+    bool isConnected = await BluetoothService().checkServerConnection();
+
+    if (!isConnected) {
+      _showErrorSnackBar(context, 'Нет соединения с сервером. Проверьте Bluetooth');
+      return null;
+    }
+
+    final response = await BluetoothService().sendCommand(command);
+
+    if (response == null) {
+      _showErrorSnackBar(context, errorMessage ?? 'Ошибка выполнения команды');
+      return null;
+    }
+
+    return response;
+  }
 
   /// Проверяет соединение и показывает соответствующее сообщение
   Future<void> checkConnectionAndNotify(

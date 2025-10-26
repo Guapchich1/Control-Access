@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/vehicle/page_3.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
+import 'package:flutter_project/services/ID.dart';
 
 class ButtonProverka extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
@@ -43,9 +44,11 @@ class ButtonProverka extends StatelessWidget with BluetoothConnectionMixin {
       child: ElevatedButton(
         onPressed: () async {
           if (formKey.currentState!.validate()) {
+            final installId = await getOrCreateInstallId();
             final commandPayload = jsonEncode({
               "action": 'proverka',
               "code": codeController.text.trim(),
+              "install_id": installId,
             });
             executeWithConnection(context, () {
               ScaffoldMessenger.of(context).showSnackBar(

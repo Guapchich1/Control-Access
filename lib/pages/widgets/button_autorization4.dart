@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
 import 'package:flutter_project/services/ID.dart';
+import 'package:flutter_project/pages/vehicle/page_5.dart';
+import 'package:flutter_project/pages/vehicle/page_6.dart';
+import 'package:flutter_project/pages/vehicle/page_7.dart';
 
 class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
@@ -22,7 +25,7 @@ class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
     required this.passwordController,
     required this.phoneController,
     required this.nameController,
-    required this.surnameController
+    required this.surnameController,
   });
 
   @override
@@ -59,23 +62,54 @@ class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
               "name": nameController.text.trim(),
               "surname": surnameController.text.trim(),
             });
-            executeWithConnection(
+            final response = await executeWithResponse(
               context,
-              () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Вы успешно авторизовались'),
-                    backgroundColor: Colors.green,
-                    duration: Duration(seconds: 1),
-                  ),
-                );
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => nextPage),
-                );
-              },
               command: commandPayload,
+              errorMessage: 'Ошибка авторизации',
             );
+
+            if (response == null) return;
+
+            if (response['status'] == 'ok') {
+              final accessLevel = response['access_level'];
+
+              Widget targetPage;
+              switch (accessLevel) {
+                case 1:
+                  targetPage = FifthPage();
+                  break;
+                case 2:
+                  targetPage = SixthPage();
+                  break;
+                case 3:
+                  targetPage = SeventhPage();
+                  break;
+                default:
+                  targetPage = const Scaffold(
+                    body: Center(child: Text("Неизвестный уровень доступа")),
+                  );
+              }
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Авторизация успешна'),
+                  backgroundColor: Colors.green,
+                  duration: Duration(seconds: 1),
+                ),
+              );
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => targetPage),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(response['message'] ?? 'Ошибка авторизации'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
           }
         },
         style: ElevatedButton.styleFrom(
