@@ -35,15 +35,20 @@ class ButtonPervVhod extends StatelessWidget with BluetoothConnectionMixin {
       ),
       child: Material(
         color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
         child: InkWell(
-          onTap: () => executeWithConnection(
-              context,
-              () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => nextPage),
-            ),
-          ),
           borderRadius: BorderRadius.circular(20),
+          onTap: () async {
+            await executeWithConnection(
+              context,
+                  () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => nextPage),
+                );
+              },
+            );
+          },
           child: Container(
             width: width240,
             height: height100,

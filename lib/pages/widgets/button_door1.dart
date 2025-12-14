@@ -5,21 +5,11 @@ import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
 import 'package:flutter_project/services/ID.dart';
 
-class ButtonRegistr extends StatelessWidget with BluetoothConnectionMixin {
+class ButtonDoor1 extends StatelessWidget with BluetoothConnectionMixin {
+  final String name;
+  final String surname;
   final String title;
-  final Widget nextPage;
-  final GlobalKey<FormState> formKey;
-  final String code;
-  final TextEditingController passwordController;
-
-  const ButtonRegistr({
-    super.key,
-    required this.title,
-    required this.nextPage,
-    required this.formKey,
-    required this.code,
-    required this.passwordController,
-  });
+  const ButtonDoor1({super.key, required this.title, required this.name, required this.surname});
 
   @override
   Widget build(BuildContext context) {
@@ -45,35 +35,25 @@ class ButtonRegistr extends StatelessWidget with BluetoothConnectionMixin {
       ),
       child: ElevatedButton(
         onPressed: () async {
-          if (formKey.currentState!.validate()) {
-            final installId = await getOrCreateInstallId();
-            final commandPayload = jsonEncode({
-              "action": 'registr',
-              "code": code, // код с предыдущей страницы
-              "install_id": installId,
-              "password": passwordController.text.trim(),
-            });
-            executeWithConnection(context, () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Вы успешно зарегистрировались'),
-                  backgroundColor: Colors.green,
-                  duration: Duration(seconds: 1),
-                ),
-              );
+          final installId = await getOrCreateInstallId();
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => nextPage),
-              );
-            }, command: commandPayload,
-            );
-          }
+          final commandPayload = jsonEncode({
+            "action": "Vhod 1 uroven",
+            "install_id": installId,
+            "name": name,
+            "surname": surname
+          });
+
+          await checkConnectionAndNotify(
+            context,
+            commandPayload,
+            "Вход в помещение первого уровня доступен",
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          minimumSize: const Size(width120, height40),
+          minimumSize: const Size(width240, height100),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

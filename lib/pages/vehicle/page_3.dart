@@ -4,11 +4,26 @@ import 'package:flutter_project/pages/widgets/button_registration3.dart';
 import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
 import 'package:flutter_project/services/validation_service.dart';
 
-class ThirdPage extends StatelessWidget {
-  ThirdPage({super.key, required this.code});
+class ThirdPage extends StatefulWidget {
+  const ThirdPage({super.key, required this.code});
+
+  final String code;
+
+  @override
+  State<ThirdPage> createState() => _ThirdPageState();
+}
+
+class _ThirdPageState extends State<ThirdPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final String code;
+  bool _obscureText = true;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +47,7 @@ class ThirdPage extends StatelessWidget {
                     TextFormField(
                       controller: _passwordController,
                       validator: ValidationService.validatePassword,
-                      obscureText: true,
+                      obscureText: _obscureText,
                       style: const TextStyle(
                         color: Color(0xFF7FFFD4),
                         fontSize: 16,
@@ -82,6 +97,19 @@ class ThirdPage extends StatelessWidget {
                           Icons.lock,
                           color: Color(0xFF7FFFD4),
                         ),
+
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureText ? Icons.visibility : Icons.visibility_off,
+                            color: Color(0xFF7FFFD4),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
+
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 16,
@@ -94,7 +122,7 @@ class ThirdPage extends StatelessWidget {
                         title: 'Завершить регистрацию',
                         nextPage: VehiclePage(),
                         formKey: _formKey,
-                        code: code,
+                        code: widget.code,
                         passwordController: _passwordController,
                       ),
                     ),

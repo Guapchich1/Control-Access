@@ -5,6 +5,7 @@ import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/vehicle/page_3.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
 import 'package:flutter_project/services/ID.dart';
+import 'package:flutter_project/pages/vehicle/vehicle_page.dart';
 
 class ButtonProverka extends StatelessWidget with BluetoothConnectionMixin {
   final String title;
@@ -50,24 +51,51 @@ class ButtonProverka extends StatelessWidget with BluetoothConnectionMixin {
               "code": codeController.text.trim(),
               "install_id": installId,
             });
-            executeWithConnection(context, () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Вы успешно ввели код'),
-                  backgroundColor: Colors.green,
-                  duration: Duration(seconds: 1),
-                ),
-              );
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ThirdPage(
-                    code: codeController.text.trim(), // передаём код
+            executeWithConnection(
+              context,
+                  () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Вы успешно ввели код'),
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 1),
                   ),
-                ),
-              );
-            }, command: commandPayload);
+                );
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ThirdPage(code: codeController.text.trim()),
+                  ),
+                );
+              },
+
+              command: commandPayload,
+
+              onError: (String message) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(message),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(seconds: 1),
+                  ),
+                );
+
+                if (message == 'Этот код уже зарегистрирован' ||
+                    message == 'Телефон закреплен за другим пользователем') {
+
+                  Future.delayed(const Duration(seconds: 1), () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => VehiclePage()),
+                          (_) => false,
+                    );
+                  });
+                }
+              },
+            );
           }
         },
         style: ElevatedButton.styleFrom(

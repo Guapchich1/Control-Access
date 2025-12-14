@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/dimensions.dart';
 import 'package:flutter_project/pages/widgets/helper/bluetooth_connection_mixin.dart';
+import 'package:flutter_project/services/ID.dart';
 
-class ButtonDoor extends StatelessWidget with BluetoothConnectionMixin {
+class ButtonDoor2 extends StatelessWidget with BluetoothConnectionMixin {
+  final String name;
+  final String surname;
   final String title;
-  const ButtonDoor({super.key, required this.title});
+  const ButtonDoor2({super.key, required this.title, required this.name, required this.surname});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +34,22 @@ class ButtonDoor extends StatelessWidget with BluetoothConnectionMixin {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () => checkConnectionAndNotify(
-          context,
-          'OPEN_DOOR',
-          'Дверь открыта',
-        ),
+        onPressed: () async {
+          final installId = await getOrCreateInstallId();
+
+          final commandPayload = jsonEncode({
+            "action": "Vhod 2 uroven",
+            "install_id": installId,
+            "name": name,
+            "surname": surname
+          });
+
+          await checkConnectionAndNotify(
+            context,
+            commandPayload,
+            "Вход в помещение второго уровня доступен",
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

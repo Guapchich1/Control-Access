@@ -5,9 +5,14 @@ import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
 import 'package:flutter_project/services/validation_service.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class FourthPage extends StatelessWidget {
-  FourthPage({super.key});
+class FourthPage extends StatefulWidget {
+  const FourthPage({super.key});
 
+  @override
+  State<FourthPage> createState() => _FourthPageState();
+}
+
+class _FourthPageState extends State<FourthPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
@@ -20,6 +25,17 @@ class FourthPage extends StatelessWidget {
     mask: '+7 (###) ###-##-##',
     filter: {"#": RegExp(r'[0-9]')},
   );
+
+  bool _obscureText = true;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +149,7 @@ class FourthPage extends StatelessWidget {
                     TextFormField(
                       controller: _passwordController,
                       validator: ValidationService.validatePassword,
-                      obscureText: true,
+                      obscureText: _obscureText,
                       style: const TextStyle(
                         color: Color(0xFF7FFFD4),
                         fontSize: 16,
@@ -142,10 +158,22 @@ class FourthPage extends StatelessWidget {
                       decoration: _inputDecoration(
                         hint: 'Введите пароль',
                         icon: Icons.lock,
+                      ).copyWith(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureText ? Icons.visibility : Icons.visibility_off,
+                            color: Color(0xFF7FFFD4),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
                     // Кнопка
                     Center(

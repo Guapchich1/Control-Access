@@ -9,11 +9,18 @@ mixin BluetoothConnectionMixin {
       VoidCallback onSuccess, {
         String? command,
         String? errorMessage,
+        void Function(String message)? onError,
       }) async {
     bool isConnected = await BluetoothService().checkServerConnection();
 
     if (!isConnected) {
-      _showErrorSnackBar(context, 'Нет соединения с сервером. Проверьте Bluetooth');
+      final msg = 'Нет соединения с сервером. Проверьте Bluetooth';
+
+      if (onError == null) {
+        _showErrorSnackBar(context, msg);
+      }
+
+      onError?.call(msg);
       return;
     }
 
@@ -23,11 +30,18 @@ mixin BluetoothConnectionMixin {
       if (response != null && response['status'] == 'ok') {
         onSuccess();
       } else {
-        _showErrorSnackBar(
-          context,
-          response != null ? response['message'] : (errorMessage ?? 'Ошибка выполнения команды'),
-        );
+        final msg = response != null
+            ? response['message']
+            : (errorMessage ?? 'Ошибка выполнения команды');
+
+        // Показываем Snackbar только если нет внешнего обработчика
+        if (onError == null) {
+          _showErrorSnackBar(context, msg);
+        }
+
+        onError?.call(msg);
       }
+
     } else {
       onSuccess();
     }

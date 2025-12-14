@@ -76,13 +76,13 @@ class ButtonAutoriz extends StatelessWidget with BluetoothConnectionMixin {
               Widget targetPage;
               switch (accessLevel) {
                 case 1:
-                  targetPage = FifthPage();
+                  targetPage = FifthPage(name: nameController.text.trim(), surname: surnameController.text.trim());
                   break;
                 case 2:
-                  targetPage = SixthPage();
+                  targetPage = SixthPage(name: nameController.text.trim(), surname: surnameController.text.trim());
                   break;
                 case 3:
-                  targetPage = SeventhPage();
+                  targetPage = SeventhPage(name: nameController.text.trim(), surname: surnameController.text.trim());
                   break;
                 default:
                   targetPage = const Scaffold(

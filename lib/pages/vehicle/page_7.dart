@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/pages/widgets/button_door.dart';
+import 'package:flutter_project/pages/widgets/button_door3.dart';
 import 'package:flutter_project/pages/widgets/helper/appbar_helper.dart';
+import 'package:flutter_project/pages/widgets/button_door1.dart';
+import 'package:flutter_project/pages/widgets/button_door2.dart';
 
 class SeventhPage extends StatelessWidget {
-  const SeventhPage({super.key});
+  final String name;
+  final String surname;
+  const SeventhPage({super.key, required this.name, required this.surname});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +21,11 @@ class SeventhPage extends StatelessWidget {
         crossAxisAlignment:
         CrossAxisAlignment.center, // центрируем по горизонтали
         children: [
-          ButtonDoor(title: 'Вход первого уровня'),
+          ButtonDoor1(title: 'Вход первого уровня', name: name, surname: surname),
           const SizedBox(height: 24),
-          ButtonDoor(title: 'Вход второго уровня'),
+          ButtonDoor2(title: 'Вход второго уровня', name: name, surname: surname),
           const SizedBox(height: 24),
-          ButtonDoor(title: 'Вход третьего уровня'),
+          ButtonDoor3(title: 'Вход третьего уровня', name: name, surname: surname),
         ],
       ),
       ),
